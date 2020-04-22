@@ -11,8 +11,17 @@ class App extends Component {
       message: "Hello Coding Garden",
       newTodo: "",
       todos: [],
+      apitest: {},
     };
   }
+  componentDidMount() {
+    Axios.get(`/api/v1/stickers`).then((res) => {
+      const apitest = res.data;
+      this.setState({ apitest });
+      console.log(apitest[0].title);
+    });
+  }
+
   formSubmitted(event) {
     event.preventDefault();
     console.log(this.state.newTodo);
@@ -77,6 +86,8 @@ class App extends Component {
           toggleTodoDone={this.toggleTodoDone.bind(this)}
           removeTodo={this.removeTodo.bind(this)}
         />
+
+        {/* <div>{this.state.apitest[0].title}</div> */}
       </div>
     );
   }
