@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Axios from "axios";
+import axios from "axios";
 import NewTodoForm from "./NewTodoForm";
 import TodoList from "./TodoList";
 import "./App.css";
@@ -15,7 +15,7 @@ class App extends Component {
     };
   }
   componentDidMount() {
-    Axios.get(`/api/v1/stickers`).then((res) => {
+    axios.get(`/api/v1/stickers`).then((res) => {
       const apitest = res.data;
       this.setState({ apitest });
       console.log(apitest[0].title);
