@@ -3,11 +3,11 @@
 module.exports = {
   development: {
     client: "pg",
-    connection: "postgres://localhost/cjs-web-store",
+    connection: "postgres://localhost/todo_app",
   },
   test: {
     client: "pg",
-    connection: "postgres://localhost/test-cjs-web-store",
+    connection: "postgres://localhost/todo_app",
   },
   production: {
     client: "pg",

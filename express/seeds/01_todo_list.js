@@ -1,11 +1,11 @@
-const stickers = require("../stickers");
+const todoList = require("../todolist");
 
 exports.seed = function (knex) {
   // Deletes ALL existing entries
-  return knex("sticker")
+  return knex("todo_list")
     .del()
     .then(function () {
       // Inserts seed entries
-      return knex("sticker").insert(stickers);
+      return knex("todo_list").insert(todoList);
     });
 };
