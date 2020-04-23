@@ -7,7 +7,7 @@ const logger = require("morgan");
 
 const app = express();
 
-const stickers = require("./api/stickers");
+const todo = require("./api/todo");
 
 // view engine setup
 
@@ -18,7 +18,7 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname + "/../client/build")));
 
-app.use("/api/v1/stickers", stickers);
+app.use("/api", todo);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

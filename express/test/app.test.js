@@ -6,7 +6,7 @@ const fixtures = require("./fixtures");
 
 const app = require("../app");
 
-describe("CRUD Stickers", () => {
+describe("CRUD Todos", () => {
   before((done) => {
     knex.migrate
       .latest()
@@ -18,88 +18,44 @@ describe("CRUD Stickers", () => {
 
   it("Lists all records", (done) => {
     request(app)
-      .get("/api/v1/stickers")
+      .get("/api/")
       .set("Accept", "application/json")
       .expect("Content-Type", /json/)
       .expect(200)
       .then((response) => {
         expect(response.body).to.be.a("array");
-        expect(response.body).to.be.deep.equal(fixtures.stickers);
-        done();
-      });
-  });
-
-  it("Show one record by id", (done) => {
-    request(app)
-      .get("/api/v1/stickers/1")
-
-      .set("Accept", "application/json")
-      .expect("Content-Type", /json/)
-      .expect(200)
-      .then((response) => {
-        expect(response.body).to.be.a("object");
-        expect(response.body).to.be.deep.equal(fixtures.stickers[0]);
-        done();
-      });
-  });
-
-  it("Show one record by id", (done) => {
-    request(app)
-      .get("/api/v1/stickers/5")
-
-      .set("Accept", "application/json")
-      .expect("Content-Type", /json/)
-      .expect(200)
-      .then((response) => {
-        expect(response.body).to.be.a("object");
-        expect(response.body).to.be.deep.equal(fixtures.stickers[4]);
+        expect(response.body).to.be.deep.equal(fixtures.todos);
         done();
       });
   });
 
   it("Creates a record", (done) => {
     request(app)
-      .post("/api/v1/stickers")
-      .send(fixtures.sticker)
+      .post("/api/")
+      .send(fixtures.todo)
       .set("Accept", "application/json")
       .expect("Content-Type", /json/)
       .expect(200)
       .then((response) => {
         expect(response.body).to.be.a("object");
-        fixtures.sticker.id = response.body.id;
-        expect(response.body).to.deep.equal(fixtures.sticker);
+        fixtures.todo.id = response.body.id;
+        expect(response.body).to.deep.equal(fixtures.todo);
         done();
       });
   });
 
   it("Updates a record", (done) => {
-    fixtures.sticker.rating = 5;
+    fixtures.todo.title = "Buy eggs";
     request(app)
-      .put("/api/v1/stickers/10")
-      .send(fixtures.sticker)
+      .put("/api/6")
+      .send(fixtures.todo)
       .set("Accept", "application/json")
       .expect("Content-Type", /json/)
       .expect(200)
       .then((response) => {
         expect(response.body).to.be.a("object");
-        fixtures.sticker.id = response.body.id;
-        expect(response.body).to.deep.equal(fixtures.sticker);
-        done();
-      });
-  });
-
-  it("Deletes a record", (done) => {
-    request(app)
-      .delete("/api/v1/stickers/10")
-      .send(fixtures.sticker)
-      .set("Accept", "application/json")
-      .expect("Content-Type", /json/)
-      .expect(200)
-      .then((response) => {
-        expect(response.body).to.be.a("object");
-        expect(response.body).to.deep.equal({
-          deleted: true,
-        });
+        fixtures.todo.id = response.body.id;
+        expect(response.body).to.deep.equal(fixtures.todo);
         done();
       });
   });

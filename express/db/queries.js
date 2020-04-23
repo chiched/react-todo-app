@@ -2,18 +2,13 @@ const knex = require("./knex");
 
 module.exports = {
   getAll() {
-    return knex("sticker");
+    return knex("todo_list");
   },
-  getOne(id) {
-    return knex("sticker").where("id", id).first();
+  create(todo) {
+    console.log("queries started");
+    return knex("todo_list").insert(todo, "*");
   },
-  create(sticker) {
-    return knex("sticker").insert(sticker, "*");
-  },
-  update(id, sticker) {
-    return knex("sticker").where("id", id).update(sticker, "*");
-  },
-  delete(id) {
-    return knex("sticker").where("id", id).del();
+  update(id, todo) {
+    return knex("todo_list").where("id", id).update(todo, "*");
   },
 };
