@@ -58,10 +58,11 @@ class App extends Component {
       });
     this.setState({ todos });
   }
+
   toggleTodoImportant(event, index, id) {
-    const todos = [...this.state.todos];
+    let todos = [...this.state.todos];
+    console.log("first todo " + JSON.stringify(todos));
     todos[index].important = !todos[index].important;
-    console.log("data: " + JSON.stringify(todos[index]));
     axios
       .put("/api/" + id, {
         title: todos[index].title,
@@ -69,10 +70,10 @@ class App extends Component {
         important: todos[index].important,
       })
       .then((res) => {
-        console.log(res.data);
-        return res;
+        todos = res.data;
+        console.log("second todo " + JSON.stringify(res.data));
+        this.setState({ todos });
       });
-    this.setState({ todos });
   }
   removeTodo(index, id) {
     const todos = [...this.state.todos];

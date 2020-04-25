@@ -31,9 +31,18 @@ router.post("/", (req, res, next) => {
 });
 router.put("/:id", isValidId, (req, res, next) => {
   if (validTodo(req.body)) {
-    queries.update(req.params.id, req.body).then((todos) => {
-      res.json(todos[0]);
-    });
+    queries
+      .update(req.params.id, req.body)
+      .then(() => {
+        console.log("updated");
+        res.status(200);
+      })
+      .then(() =>
+        queries.getAll().then((todos) => {
+          console.log("updated again");
+          res.json(todos);
+        })
+      );
   } else {
     next(new Error("Invalid todo"));
   }

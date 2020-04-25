@@ -2,7 +2,7 @@ const knex = require("./knex");
 
 module.exports = {
   getAll() {
-    return knex("todo_list");
+    return knex("todo_list").orderBy("important", "desc");
   },
   create(todo) {
     return knex("todo_list").insert(todo, "*");
