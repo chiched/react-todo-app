@@ -38,5 +38,10 @@ router.put("/:id", isValidId, (req, res, next) => {
     next(new Error("Invalid todo"));
   }
 });
+router.delete("/:id", isValidId, (req, res) => {
+  queries.delete(req.params.id).then(() => {
+    res.status(200).end();
+  });
+});
 
 module.exports = router;

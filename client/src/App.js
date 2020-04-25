@@ -15,10 +15,9 @@ class App extends Component {
     };
   }
   componentDidMount() {
-    axios.get(`/api/v1/stickers`).then((res) => {
-      const apitest = res.data;
-      this.setState({ apitest });
-      console.log(apitest[0].title);
+    axios.get(`/api`).then((res) => {
+      const todos = res.data;
+      this.setState({ todos });
     });
   }
 
@@ -42,32 +41,36 @@ class App extends Component {
       newTodo,
     });
   }
-  toggleTodoDone(event, index) {
-    console.log(event.target.checked);
+
+  toggleTodoDone(event, index, id) {
     const todos = [...this.state.todos];
-    // todos[index] = {...todos[index]};
     todos[index].done = event.target.checked;
-    console.log(todos);
-    this.setState({
-      todos,
-    });
+    console.log("data: " + JSON.stringify(todos[index]));
+    axios
+      .put("/api/" + id, {
+        title: todos[index].title,
+        done: todos[index].done,
+        important: todos[index].important,
+      })
+      .then((res) => {
+        console.log(res.data);
+        return res;
+      });
+    this.setState({ todos });
   }
-  removeTodo(index) {
+
+  removeTodo(index, id) {
     const todos = [...this.state.todos];
-    todos.splice(index, 1);
-    this.setState({
-      todos,
-    });
-  }
-  allDone() {
-    const todos = this.state.todos.map((todo) => {
-      return {
-        ...todo, // title: todo.title,
-        done: true,
-      };
-    });
-    this.setState({
-      todos,
+    axios.delete("/api/" + id).then((res) => {
+      console.log(res);
+      if (res.status === 200) {
+        console.log("status 200 received");
+        todos.splice(index, 1);
+        console.log("new todos: " + JSON.stringify(todos));
+        this.setState({
+          todos,
+        });
+      }
     });
   }
 
