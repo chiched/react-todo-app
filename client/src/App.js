@@ -58,7 +58,22 @@ class App extends Component {
       });
     this.setState({ todos });
   }
-
+  toggleTodoImportant(event, index, id) {
+    const todos = [...this.state.todos];
+    todos[index].important = !todos[index].important;
+    console.log("data: " + JSON.stringify(todos[index]));
+    axios
+      .put("/api/" + id, {
+        title: todos[index].title,
+        done: todos[index].done,
+        important: todos[index].important,
+      })
+      .then((res) => {
+        console.log(res.data);
+        return res;
+      });
+    this.setState({ todos });
+  }
   removeTodo(index, id) {
     const todos = [...this.state.todos];
     axios.delete("/api/" + id).then((res) => {
@@ -86,6 +101,7 @@ class App extends Component {
         <button onClick={() => this.allDone()}>All done</button>
         <TodoList
           todos={this.state.todos}
+          toggleTodoImportant={this.toggleTodoImportant.bind(this)}
           toggleTodoDone={this.toggleTodoDone.bind(this)}
           removeTodo={this.removeTodo.bind(this)}
         />

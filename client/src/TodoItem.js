@@ -17,6 +17,13 @@ const TodoItem = (props) => {
             {todo.title}
           </span> */}
       <span className={todo.done ? "done" : ""}>{todo.title}</span>
+      <span
+        onClick={(event) => props.toggleTodoImportant(event, index, id)}
+        className={todo.important ? "important" : ""}
+      >
+        Important
+      </span>
+
       <button onClick={() => props.removeTodo(index, id)}>Remove</button>
     </li>
   );

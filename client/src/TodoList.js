@@ -12,6 +12,7 @@ const TodoList = (props) => {
             id={todo.id}
             todo={todo}
             toggleTodoDone={props.toggleTodoDone}
+            toggleTodoImportant={props.toggleTodoImportant}
             removeTodo={props.removeTodo}
           />
         );
