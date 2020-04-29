@@ -7,4 +7,11 @@ module.exports = {
   getOneByEmail(email) {
     return knex("users").where("email", email).first();
   },
+  create(user) {
+    return knex("users")
+      .insert(user, "id")
+      .then((ids) => {
+        return ids[0];
+      });
+  },
 };
