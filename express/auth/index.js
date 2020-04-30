@@ -47,4 +47,32 @@ router.post("/signup", (req, res, next) => {
   }
 });
 
+router.post("/login", (req, res, next) => {
+  if (validUser(req.body)) {
+    Users.getOneByEmail(req.body.email).then((user) => {
+      console.log(user);
+      if (user) {
+        bcrypt.compare(req.body.password, user.password).then((result) => {
+          if (result) {
+            const isSecure = req.app.get("env") != "development";
+            res.cookie("user_id", user.id, {
+              httpOnly: true,
+              signed: true,
+              secured: isSecure,
+            });
+            res.json({
+              message: "Logged in! 🔓",
+            });
+          } else {
+            next(new Error("Invalid login - wrong pass"));
+          }
+        });
+      } else {
+        next(new Error("Invalid login - user not found"));
+      }
+    });
+  } else {
+    next(new Error("Invalid login"));
+  }
+});
 module.exports = router;
