@@ -12,6 +12,8 @@ class App extends Component {
       newTodo: "",
       todos: [],
       apitest: {},
+      email: "",
+      password: "",
     };
   }
   componentDidMount() {
@@ -35,6 +37,7 @@ class App extends Component {
       ],
     });
   }
+
   newTodoChanged(event) {
     const newTodo = event.target.value;
     this.setState({
@@ -89,6 +92,22 @@ class App extends Component {
       }
     });
   }
+  handleEmailChange(event) {
+    const email = event.target.value;
+    this.setState({
+      email,
+    });
+  }
+  handlePasswordChange(event) {
+    const password = event.target.value;
+    this.setState({
+      password,
+    });
+  }
+  handleLoginSubmit(event) {
+    event.preventDefault();
+    console.log("Login submitted");
+  }
 
   render() {
     return (
@@ -107,7 +126,37 @@ class App extends Component {
           removeTodo={this.removeTodo.bind(this)}
         />
 
-        {/* <div>{this.state.apitest[0].title}</div> */}
+        <div className="login">
+          <h2>Login Form</h2>
+          <form className="form" onSubmit={this.handleLoginSubmit}>
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <input
+                onChange={this.handleEmailChange.bind(this)}
+                type="email"
+                className="form-control"
+                id="email"
+                placeholder="hello@world.com"
+                value={this.state.email}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <input
+                onChange={this.handlePasswordChange.bind(this)}
+                type="password"
+                value={this.state.password}
+                className="form-control"
+                id="password"
+                placeholder="keyboard cat"
+                required
+              />
+              <p className="help-block"> Help text here.</p>
+            </div>
+            <button type="submit">Login</button>
+          </form>
+        </div>
       </div>
     );
   }
