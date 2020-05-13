@@ -4,6 +4,7 @@ exports.up = function (knex) {
     table.text("title");
     table.boolean("done");
     table.boolean("important");
+    table.integer("user_id");
   });
 };
 

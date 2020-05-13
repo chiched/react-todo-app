@@ -18,9 +18,14 @@ router.get("/", (req, res) => {
     res.json(todos);
   });
 });
-
+router.get("/user/:id", (req, res) => {
+  queries.getAll().then((todos) => {
+    console.log(todos);
+    const filteredList = todos.filter((todo) => todo.user_id == req.params.id);
+    res.json(filteredList);
+  });
+});
 router.post("/", (req, res, next) => {
-  console.log("test");
   if (validTodo(req.body)) {
     queries.create(req.body).then((todos) => {
       res.json(todos[0]);

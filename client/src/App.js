@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import NewTodoForm from "./NewTodoForm";
 import TodoList from "./TodoList";
+import LoginForm from "./LoginForm";
 import "./App.css";
 
 class App extends Component {
@@ -106,7 +107,19 @@ class App extends Component {
   }
   handleLoginSubmit(event) {
     event.preventDefault();
+
     console.log("Login submitted");
+    const email = this.state.email;
+    const password = this.state.password;
+    const user = {
+      email,
+      password,
+    };
+    console.log(user);
+    login(user);
+  }
+  login(user) {
+    console.log(user);
   }
 
   render() {
@@ -125,38 +138,13 @@ class App extends Component {
           toggleTodoDone={this.toggleTodoDone.bind(this)}
           removeTodo={this.removeTodo.bind(this)}
         />
-
-        <div className="login">
-          <h2>Login Form</h2>
-          <form className="form" onSubmit={this.handleLoginSubmit}>
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input
-                onChange={this.handleEmailChange.bind(this)}
-                type="email"
-                className="form-control"
-                id="email"
-                placeholder="hello@world.com"
-                value={this.state.email}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input
-                onChange={this.handlePasswordChange.bind(this)}
-                type="password"
-                value={this.state.password}
-                className="form-control"
-                id="password"
-                placeholder="keyboard cat"
-                required
-              />
-              <p className="help-block"> Help text here.</p>
-            </div>
-            <button type="submit">Login</button>
-          </form>
-        </div>
+        <LoginForm
+          handleLoginSubmit={this.handleLoginSubmit.bind(this)}
+          handleEmailChange={this.handleEmailChange.bind(this)}
+          handlePasswordChange={this.handlePasswordChange.bind(this)}
+          email={this.state.email}
+          password={this.state.password}
+        />
       </div>
     );
   }
