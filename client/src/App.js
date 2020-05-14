@@ -3,7 +3,9 @@ import axios from "axios";
 import NewTodoForm from "./NewTodoForm";
 import TodoList from "./TodoList";
 import LoginForm from "./LoginForm";
+import SignupForm from "./SignupForm";
 import "./App.css";
+import API_URL from "./HelperFunctions";
 
 class App extends Component {
   constructor() {
@@ -13,12 +15,17 @@ class App extends Component {
       newTodo: "",
       todos: [],
       apitest: {},
-      email: "",
-      password: "",
+      loginEmail: "",
+      loginPassword: "",
+      loginError: "",
+      signupEmail: "",
+      signupPassword: "",
+      signupError: "",
     };
   }
+
   componentDidMount() {
-    axios.get(`/api`).then((res) => {
+    axios.get(`/api/`).then((res) => {
       const todos = res.data;
       this.setState({ todos });
     });
@@ -93,33 +100,74 @@ class App extends Component {
       }
     });
   }
-  handleEmailChange(event) {
-    const email = event.target.value;
+  handleLoginEmailChange(event) {
+    const loginEmail = event.target.value;
     this.setState({
-      email,
+      loginEmail,
     });
   }
-  handlePasswordChange(event) {
-    const password = event.target.value;
+  handleLoginPasswordChange(event) {
+    const loginPassword = event.target.value;
     this.setState({
-      password,
+      loginPassword,
     });
   }
+
   handleLoginSubmit(event) {
     event.preventDefault();
-
-    console.log("Login submitted");
-    const email = this.state.email;
-    const password = this.state.password;
+    const email = this.state.loginEmail;
+    const password = this.state.loginPassword;
+    const user = {
+      email,
+      password,
+    };
+    axios
+      .post(`/auth/login`, user)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.error(error.response);
+        const loginError = error.response.data.message;
+        this.setState({
+          loginError,
+        });
+      });
+  }
+  handleSignupSubmit(event) {
+    event.preventDefault();
+    const email = this.state.signupEmail;
+    const password = this.state.signupPassword;
     const user = {
       email,
       password,
     };
     console.log(user);
-    login(user);
+    axios
+      .post(`/auth/signup`, user)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.error(error.response);
+        const signupError = error.response.data.message;
+        this.setState({
+          signupError,
+        });
+      });
   }
-  login(user) {
-    console.log(user);
+  handleSignupEmailChange(event) {
+    const signupEmail = event.target.value;
+    this.setState({
+      signupEmail,
+    });
+  }
+
+  handleSignupPasswordChange(event) {
+    const signupPassword = event.target.value;
+    this.setState({
+      signupPassword,
+    });
   }
 
   render() {
@@ -140,10 +188,21 @@ class App extends Component {
         />
         <LoginForm
           handleLoginSubmit={this.handleLoginSubmit.bind(this)}
-          handleEmailChange={this.handleEmailChange.bind(this)}
-          handlePasswordChange={this.handlePasswordChange.bind(this)}
-          email={this.state.email}
-          password={this.state.password}
+          handleLoginEmailChange={this.handleLoginEmailChange.bind(this)}
+          handleLoginPasswordChange={this.handleLoginPasswordChange.bind(this)}
+          loginEmail={this.state.loginEmail}
+          loginPassword={this.state.loginPassword}
+          loginError={this.state.loginError}
+        />
+        <SignupForm
+          handleSignupSubmit={this.handleSignupSubmit.bind(this)}
+          handleSignupEmailChange={this.handleSignupEmailChange.bind(this)}
+          handleSignupPasswordChange={this.handleSignupPasswordChange.bind(
+            this
+          )}
+          signupEmail={this.state.signupEmail}
+          signupPassword={this.state.signupPassword}
+          signupError={this.state.signupError}
         />
       </div>
     );

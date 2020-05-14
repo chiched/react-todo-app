@@ -21,8 +21,14 @@ router.get("/", (req, res) => {
 router.get("/user/:id", (req, res) => {
   queries.getAll().then((todos) => {
     console.log(todos);
-    const filteredList = todos.filter((todo) => todo.user_id == req.params.id);
-    res.json(filteredList);
+    if (!req.params.id) {
+      res.json(todos);
+    } else {
+      const filteredList = todos.filter(
+        (todo) => todo.user_id == req.params.id
+      );
+      res.json(filteredList);
+    }
   });
 });
 router.post("/", (req, res, next) => {
