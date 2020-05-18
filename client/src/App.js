@@ -6,6 +6,13 @@ import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 import "./App.css";
 import API_URL from "./HelperFunctions";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useLocation,
+} from "react-router-dom";
 
 class App extends Component {
   constructor() {
@@ -25,10 +32,22 @@ class App extends Component {
   }
 
   componentDidMount() {
-    axios.get(`/api/`).then((res) => {
-      const todos = res.data;
-      this.setState({ todos });
-    });
+    const url = window.location.pathname;
+    let urlParams = url.split("/");
+    console.log(urlParams[2]);
+    console.log(typeof urlParams[2]);
+    if (urlParams[1] === "user" && !isNaN(urlParams[2])) {
+      axios.get(`/api/user/` + urlParams[2]).then((res) => {
+        console.log(res);
+        const todos = res.data;
+        this.setState({ todos });
+      });
+    } else {
+      axios.get(`/api/`).then((res) => {
+        const todos = res.data;
+        this.setState({ todos });
+      });
+    }
   }
 
   formSubmitted(event) {

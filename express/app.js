@@ -5,7 +5,7 @@ const favicon = require("serve-favicon");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const auth = require("./auth");
-
+const authMiddleware = require("./auth/middleware");
 const app = express();
 
 const todo = require("./api/todo");
