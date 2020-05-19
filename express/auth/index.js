@@ -32,6 +32,12 @@ router.post("/signup", (req, res, next) => {
             created_at: new Date(),
           };
           Users.create(user).then((id) => {
+            const isSecure = req.app.get("env") != "development";
+            res.cookie("user_id", id, {
+              httpOnly: true,
+              signed: true,
+              secured: isSecure,
+            });
             res.json({
               id,
               message: "✅",
@@ -75,5 +81,11 @@ router.post("/login", (req, res, next) => {
   } else {
     next(new Error("Invalid login"));
   }
+});
+router.get("/logout", (req, res) => {
+  res.clearCookie("user_id");
+  res.json({
+    message: "🔒",
+  });
 });
 module.exports = router;

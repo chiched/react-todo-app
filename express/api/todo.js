@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-
 const queries = require("../db/queries");
+const authMiddleware = require("../auth/middleware");
 
 function isValidId(req, res, next) {
   if (!isNaN(req.params.id)) return next();
@@ -18,19 +18,24 @@ router.get("/", (req, res) => {
     res.json(todos);
   });
 });
-router.get("/user/:id", (req, res) => {
-  queries.getAll().then((todos) => {
-    console.log(todos);
-    if (!req.params.id) {
-      res.json(todos);
-    } else {
-      const filteredList = todos.filter(
-        (todo) => todo.user_id == req.params.id
-      );
-      res.json(filteredList);
-    }
-  });
-});
+router.get(
+  "/user/:id",
+  authMiddleware.ensureLoggedIn,
+  authMiddleware.allowAccess,
+  (req, res) => {
+    queries.getAll().then((todos) => {
+      console.log(todos);
+      if (!req.params.id) {
+        res.json(todos);
+      } else {
+        const filteredList = todos.filter(
+          (todo) => todo.user_id == req.params.id
+        );
+        res.json(filteredList);
+      }
+    });
+  }
+);
 router.post("/", (req, res, next) => {
   if (validTodo(req.body)) {
     queries.create(req.body).then((todos) => {

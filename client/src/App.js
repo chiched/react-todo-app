@@ -13,13 +13,15 @@ import {
   Link,
   useLocation,
 } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCoffee } from "@fortawesome/free-solid-svg-icons";
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
       message: "Hello Coding Garden",
-      newTodo: "",
+      newTodo: "Add a to-do",
       todos: [],
       apitest: {},
       loginEmail: "",
@@ -28,21 +30,29 @@ class App extends Component {
       signupEmail: "",
       signupPassword: "",
       signupError: "",
+      loggedIn: false,
     };
   }
 
   componentDidMount() {
     const url = window.location.pathname;
     let urlParams = url.split("/");
-    console.log(urlParams[2]);
-    console.log(typeof urlParams[2]);
     if (urlParams[1] === "user" && !isNaN(urlParams[2])) {
-      axios.get(`/api/user/` + urlParams[2]).then((res) => {
-        console.log(res);
-        const todos = res.data;
-        this.setState({ todos });
-      });
+      axios
+        .get(`/api/user/` + urlParams[2])
+        .then((res) => {
+          console.log(res);
+          const todos = res.data;
+          this.setState({ todos });
+        })
+        .catch((error) => {
+          window.location = "/";
+          console.log(error.response);
+        });
     } else {
+      if (localStorage.user_id) {
+        window.location = "/user/" + localStorage.user_id;
+      }
       axios.get(`/api/`).then((res) => {
         const todos = res.data;
         this.setState({ todos });
@@ -143,10 +153,10 @@ class App extends Component {
     axios
       .post(`/auth/login`, user)
       .then((res) => {
-        console.log(res);
+        localStorage.user_id = res.data.id;
+        this.loggedIn = true;
       })
       .catch((error) => {
-        console.error(error.response);
         const loginError = error.response.data.message;
         this.setState({
           loginError,
@@ -165,7 +175,11 @@ class App extends Component {
     axios
       .post(`/auth/signup`, user)
       .then((res) => {
+        console.log("signed up");
         console.log(res);
+        localStorage.user_id = res.data.id;
+        this.loggedIn = true;
+        window.location = "/";
       })
       .catch((error) => {
         console.error(error.response);
@@ -188,17 +202,48 @@ class App extends Component {
       signupPassword,
     });
   }
+  logout() {
+    localStorage.removeItem("user_id");
+    axios.get(`/auth/logout`).then((res) => {
+      console.log(res);
+      this.loggedIn = false;
+      window.location = "/";
+    });
+  }
 
   render() {
     return (
       <div className="App">
-        <h3>{this.state.message}</h3>
+        <navbar>
+          <button
+            className={this.loggedIn ? "hidden logout" : "visible logout"}
+            onClick={() => this.logout()}
+          >
+            Logout
+          </button>
+          <button
+            className={!this.loggedIn ? "hidden signup" : "visible singup"}
+            onClick={() => this.logout()}
+          >
+            Signup
+          </button>
+          <button
+            className={!this.loggedIn ? "hidden login" : "visible login"}
+            onClick={() => this.logout()}
+          >
+            Login
+          </button>
+          <h3>{this.state.message}</h3>
+          <h3>
+            <FontAwesomeIcon icon={faCoffee} />
+          </h3>
+        </navbar>
+
         <NewTodoForm
           newTodo={this.state.newTodo}
           formSubmitted={this.formSubmitted.bind(this)}
           newTodoChanged={this.newTodoChanged.bind(this)}
         />
-        <button onClick={() => this.allDone()}>All done</button>
         <TodoList
           todos={this.state.todos}
           toggleTodoImportant={this.toggleTodoImportant.bind(this)}

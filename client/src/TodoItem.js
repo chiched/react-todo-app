@@ -1,4 +1,13 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCoffee,
+  faPlus,
+  faTrashAlt,
+  faStar,
+  faSignInAlt,
+  faSignOutAlt,
+} from "@fortawesome/free-solid-svg-icons";
 
 const TodoItem = (props) => {
   const { todo, index, id } = props;
@@ -21,7 +30,7 @@ const TodoItem = (props) => {
         onClick={(event) => props.toggleTodoImportant(event, index, id)}
         className={todo.important ? "important" : ""}
       >
-        Important
+        <FontAwesomeIcon icon={faStar} className="star" />
       </span>
 
       <button onClick={() => props.removeTodo(index, id)}>Remove</button>
