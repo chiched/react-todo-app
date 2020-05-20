@@ -30,7 +30,7 @@ const TodoItem = (props) => {
         onClick={(event) => props.toggleTodoImportant(event, index, id)}
         className={todo.important ? "important" : ""}
       >
-        <FontAwesomeIcon icon={faStar} className="star" />
+        <FontAwesomeIcon icon={faStar} className="star" size="lg" />
       </span>
 
       <button onClick={() => props.removeTodo(index, id)}>Remove</button>

@@ -14,13 +14,20 @@ import {
   useLocation,
 } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCoffee } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCoffee,
+  faPlus,
+  faTrashAlt,
+  faStar,
+  faSignInAlt,
+  faSignOutAlt,
+} from "@fortawesome/free-solid-svg-icons";
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      message: "Hello Coding Garden",
+      message: "My work",
       newTodo: "Add a to-do",
       todos: [],
       apitest: {},
@@ -215,28 +222,31 @@ class App extends Component {
     return (
       <div className="App">
         <navbar>
-          <button
-            className={this.loggedIn ? "hidden logout" : "visible logout"}
-            onClick={() => this.logout()}
-          >
-            Logout
-          </button>
-          <button
-            className={!this.loggedIn ? "hidden signup" : "visible singup"}
-            onClick={() => this.logout()}
-          >
-            Signup
-          </button>
-          <button
-            className={!this.loggedIn ? "hidden login" : "visible login"}
-            onClick={() => this.logout()}
-          >
-            Login
-          </button>
-          <h3>{this.state.message}</h3>
-          <h3>
-            <FontAwesomeIcon icon={faCoffee} />
-          </h3>
+          <span>{this.state.message}</span>
+          <div className="nav-right">
+            <a
+              href=""
+              className={this.loggedIn ? "hidden logout" : "visible logout"}
+              onClick={() => this.logout()}
+              title="Logout"
+            >
+              Logout <FontAwesomeIcon className="logout" icon={faSignOutAlt} />
+            </a>
+            <a
+              href=""
+              className={!this.loggedIn ? "hidden signup" : "visible singup"}
+              onClick={() => this.logout()}
+            >
+              Signup
+            </a>
+            <a
+              href=""
+              className={!this.loggedIn ? "hidden login" : "visible login"}
+              onClick={() => this.logout()}
+            >
+              Login <FontAwesomeIcon className="logout" icon={faSignInAlt} />
+            </a>
+          </div>
         </navbar>
 
         <NewTodoForm
