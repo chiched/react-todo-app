@@ -63,7 +63,7 @@ form.add-todo input:focus {
 form.add-todo button {
   background: none;
   border: none;
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: rgb(255, 255, 255, 0.7);
   float: right;
   cursor: pointer;
@@ -74,25 +74,45 @@ form.add-todo button:hover {
   color: rgb(255, 255, 255, 1);
 }
 input[type="checkbox"] {
-  display: inline;
   margin-right: 10px;
 }
 ul {
-  padding: 0px;
+  padding: 0px 12px;
 }
 li {
   list-style: none;
   padding: 5px;
+  background-color: #fff;
+  border-radius: 3px;
+  margin-bottom: 1px;
+  height: 1.4rem;
+  padding: 12px;
+  font-weight: 300;
+  color: #202020;
 }
 .done {
   text-decoration: line-through;
 }
-.important {
-  background-color: red;
-}
+
 .visible {
   display: none;
 }
-.star {
-  color: grey;
+.todo-right {
+  float: right;
+}
+.todo-right svg {
+  margin-left: 15px;
+}
+.fa-star {
+  font-size: 1rem;
+  color: #57b68c;
+  cursor: pointer;
+}
+.fa-trash-alt {
+  font-size: 1rem;
+  color: rgb(32, 32, 32, 0.5);
+  cursor: pointer;
+}
+.fa-trash-alt:hover {
+  color: #e40000;
 }

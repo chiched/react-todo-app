@@ -27,7 +27,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      message: "My work",
+      message: "My Work",
       newTodo: "Add a to-do",
       todos: [],
       apitest: {},
@@ -210,12 +210,12 @@ class App extends Component {
     });
   }
   logout() {
-    localStorage.removeItem("user_id");
-    axios.get(`/auth/logout`).then((res) => {
+    axios.get("/auth/logout").then((res) => {
       console.log(res);
       this.loggedIn = false;
       window.location = "/";
     });
+    localStorage.removeItem("user_id");
   }
 
   render() {
@@ -226,7 +226,7 @@ class App extends Component {
           <div className="nav-right">
             <a
               href=""
-              className={this.loggedIn ? "hidden logout" : "visible logout"}
+              className={this.loggedIn ? "visible logout" : "hidden logout"}
               onClick={() => this.logout()}
               title="Logout"
             >
@@ -234,14 +234,14 @@ class App extends Component {
             </a>
             <a
               href=""
-              className={!this.loggedIn ? "hidden signup" : "visible singup"}
+              className={this.loggedIn ? "hidden signup" : "visible singup"}
               onClick={() => this.logout()}
             >
               Signup
             </a>
             <a
               href=""
-              className={!this.loggedIn ? "hidden login" : "visible login"}
+              className={this.loggedIn ? "hidden login" : "visible login"}
               onClick={() => this.logout()}
             >
               Login <FontAwesomeIcon className="logout" icon={faSignInAlt} />
