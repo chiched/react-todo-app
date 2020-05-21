@@ -32,12 +32,12 @@ const TodoItem = (props) => {
           className={todo.important ? "important" : ""}
         >
           <FontAwesomeIcon
-            icon={faStar}
+            icon={fsStar}
             className={todo.important ? "visible" : "hidden"}
             size="lg"
           />
           <FontAwesomeIcon
-            icon={fsStar}
+            icon={faStar}
             className={todo.important ? "hidden" : "visible"}
             size="lg"
           />

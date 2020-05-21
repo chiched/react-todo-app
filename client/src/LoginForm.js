@@ -1,39 +1,46 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCoffee,
+  faPlus,
+  faTrashAlt,
+  faStar,
+  faSignInAlt,
+  faSignOutAlt,
+} from "@fortawesome/free-solid-svg-icons";
 
 const LoginForm = (props) => {
   return (
-    <div className="login">
-      <h2>Login Form</h2>
+    <div className="login auth-form login-form">
       <form
-        className="form"
+        className={props.showingLogin ? "form" : "form hidden"}
         onSubmit={(event) => props.handleLoginSubmit(event)}
       >
         <div className="form-group">
-          <label htmlFor="email">Email</label>
           <input
             onChange={(event) => props.handleLoginEmailChange(event)}
             type="email"
             className="form-control"
             id="email"
-            placeholder="hello@world.com"
+            placeholder="Email"
             value={props.loginEmail}
             required
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password">Password</label>
           <input
             onChange={(event) => props.handleLoginPasswordChange(event)}
             type="password"
             value={props.loginPassword}
             className="form-control"
             id="password"
-            placeholder="keyboard cat"
+            placeholder="password"
             required
           />
-          <p className="help-block"> Help text here.</p>
         </div>
-        <button type="submit">Login</button>
+        <button type="submit">
+          <FontAwesomeIcon className="logout" icon={faSignInAlt} />
+        </button>
         <span>{props.loginError}</span>
       </form>
     </div>

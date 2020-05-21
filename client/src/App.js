@@ -38,10 +38,13 @@ class App extends Component {
       signupPassword: "",
       signupError: "",
       loggedIn: false,
+      showingLogin: false,
+      showingSignup: false,
     };
   }
 
   componentDidMount() {
+    document.addEventListener("mousedown", this.handleClickOutside.bind(this));
     const url = window.location.pathname;
     let urlParams = url.split("/");
     if (urlParams[1] === "user" && !isNaN(urlParams[2])) {
@@ -67,6 +70,31 @@ class App extends Component {
     }
   }
 
+  handleClickOutside(event) {
+    console.log(event.target);
+    const loginButton = document.getElementsByClassName("login");
+    const signupButton = document.getElementsByClassName("signup");
+    console.log(signupButton);
+    console.log(signupButton.item(0));
+    console.log(signupButton.item(1));
+
+    if (
+      !loginButton.item(0).contains(event.target) &&
+      !loginButton.item(1).contains(event.target)
+    ) {
+      const showingLogin = false;
+      this.setState({ showingLogin });
+    }
+    if (
+      !signupButton.item(0).contains(event.target) &&
+      !signupButton.item(1).contains(event.target)
+    ) {
+      const showingSignup = false;
+      this.setState({ showingSignup });
+    }
+    // showingLogin: false,
+    //   showingSignup: false,
+  }
   formSubmitted(event) {
     event.preventDefault();
     console.log(this.state.newTodo);
@@ -161,7 +189,9 @@ class App extends Component {
       .post(`/auth/login`, user)
       .then((res) => {
         localStorage.user_id = res.data.id;
-        this.loggedIn = true;
+        this.setState({
+          loggedIn: true,
+        });
       })
       .catch((error) => {
         const loginError = error.response.data.message;
@@ -185,7 +215,9 @@ class App extends Component {
         console.log("signed up");
         console.log(res);
         localStorage.user_id = res.data.id;
-        this.loggedIn = true;
+        this.setState({
+          loggedIn: true,
+        });
         window.location = "/";
       })
       .catch((error) => {
@@ -232,20 +264,55 @@ class App extends Component {
             >
               Logout <FontAwesomeIcon className="logout" icon={faSignOutAlt} />
             </a>
+
             <a
               href=""
-              className={this.loggedIn ? "hidden signup" : "visible singup"}
-              onClick={() => this.logout()}
+              className={`${this.loggedIn ? "hidden " : "visible "} ${
+                this.state.showingSignup ? "active " : ""
+              } signup`}
+              onClick={(e) => {
+                e.preventDefault();
+                this.setState({ showingSignup: true });
+              }}
             >
               Signup
             </a>
             <a
               href=""
-              className={this.loggedIn ? "hidden login" : "visible login"}
-              onClick={() => this.logout()}
+              className={`${this.loggedIn ? "hidden " : "visible "} ${
+                this.state.showingLogin ? "active " : ""
+              } login`}
+              onClick={(e) => {
+                e.preventDefault();
+                this.setState({ showingLogin: true });
+              }}
             >
               Login <FontAwesomeIcon className="logout" icon={faSignInAlt} />
             </a>
+
+            <LoginForm
+              handleLoginSubmit={this.handleLoginSubmit.bind(this)}
+              handleLoginEmailChange={this.handleLoginEmailChange.bind(this)}
+              handleLoginPasswordChange={this.handleLoginPasswordChange.bind(
+                this
+              )}
+              loginEmail={this.state.loginEmail}
+              loginPassword={this.state.loginPassword}
+              loginError={this.state.loginError}
+              showingLogin={this.state.showingLogin}
+            />
+
+            <SignupForm
+              handleSignupSubmit={this.handleSignupSubmit.bind(this)}
+              handleSignupEmailChange={this.handleSignupEmailChange.bind(this)}
+              handleSignupPasswordChange={this.handleSignupPasswordChange.bind(
+                this
+              )}
+              signupEmail={this.state.signupEmail}
+              signupPassword={this.state.signupPassword}
+              signupError={this.state.signupError}
+              showingSignup={this.state.showingSignup}
+            />
           </div>
         </navbar>
 
@@ -259,24 +326,6 @@ class App extends Component {
           toggleTodoImportant={this.toggleTodoImportant.bind(this)}
           toggleTodoDone={this.toggleTodoDone.bind(this)}
           removeTodo={this.removeTodo.bind(this)}
-        />
-        <LoginForm
-          handleLoginSubmit={this.handleLoginSubmit.bind(this)}
-          handleLoginEmailChange={this.handleLoginEmailChange.bind(this)}
-          handleLoginPasswordChange={this.handleLoginPasswordChange.bind(this)}
-          loginEmail={this.state.loginEmail}
-          loginPassword={this.state.loginPassword}
-          loginError={this.state.loginError}
-        />
-        <SignupForm
-          handleSignupSubmit={this.handleSignupSubmit.bind(this)}
-          handleSignupEmailChange={this.handleSignupEmailChange.bind(this)}
-          handleSignupPasswordChange={this.handleSignupPasswordChange.bind(
-            this
-          )}
-          signupEmail={this.state.signupEmail}
-          signupPassword={this.state.signupPassword}
-          signupError={this.state.signupError}
         />
       </div>
     );
