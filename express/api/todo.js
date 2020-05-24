@@ -15,6 +15,8 @@ function validTodo(todo) {
 }
 router.get("/", (req, res) => {
   queries.getAll().then((todos) => {
+    todos.filter((x) => !x.user_id);
+    console.log(todos);
     res.json(todos);
   });
 });
@@ -38,7 +40,11 @@ router.get(
 );
 router.post("/", (req, res, next) => {
   if (validTodo(req.body)) {
-    queries.create(req.body).then((todos) => {
+    const todo = { ...req.body, user_id: req.signedCookies.user_id };
+
+    queries.create(todo).then((todos) => {
+      // req.signedCookies.user_id
+      console.log(todos[0]);
       res.json(todos[0]);
     });
   } else {

@@ -43,7 +43,7 @@ const TodoItem = (props) => {
           />
         </span>
 
-        <a href="" onClick={() => props.removeTodo(index, id)}>
+        <a href="" onClick={(event) => props.removeTodo(event, index, id)}>
           <FontAwesomeIcon icon={faTrashAlt} size="lg" />
         </a>
       </div>

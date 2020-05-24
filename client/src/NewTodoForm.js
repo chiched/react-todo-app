@@ -17,6 +17,7 @@ const NewTodoForm = (props) => {
         id="newTodo"
         name="newTodo"
         value={props.newTodo}
+        placeholder="Add a new to-do"
       />
       <button type="submit">
         <FontAwesomeIcon className="logout" icon={faPlusCircle} size="lg" />
