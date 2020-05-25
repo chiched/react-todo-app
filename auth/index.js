@@ -36,7 +36,7 @@ router.post("/signup", (req, res, next) => {
               .cookie("user_id", id, {
                 httpOnly: true,
                 signed: true,
-                secured: isSecure,
+                secure: isSecure,
               })
               .cookie("loggedIn", id, {
                 httpOnly: false,
