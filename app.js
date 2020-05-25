@@ -21,11 +21,11 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 
 app.use(express.static(path.join(__dirname + "/client/build")));
 
-app.get("/*", (req, res) => {
-  res.sendFile(path.join(__dirname + "/client/build/index.html"));
-});
 app.use("/auth", auth);
 app.use("/api", todo);
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/client/build/"));
+});
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
