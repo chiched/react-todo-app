@@ -6,13 +6,7 @@ import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 import "./App.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPlus,
-  faTrashAlt,
-  faStar,
-  faSignInAlt,
-  faSignOutAlt,
-} from "@fortawesome/free-solid-svg-icons";
+import { faSignInAlt, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
 class App extends Component {
   constructor() {
@@ -51,8 +45,8 @@ class App extends Component {
           console.log(error.response);
         });
     } else {
-      if (localStorage.user_id) {
-        window.location = "/user/" + localStorage.user_id;
+      if (sessionStorage.user_id) {
+        window.location = "/user/" + sessionStorage.user_id;
         this.setState({
           loggedIn: true,
         });
@@ -194,7 +188,7 @@ class App extends Component {
     axios
       .post(`/auth/login`, user)
       .then((res) => {
-        localStorage.user_id = res.data.id;
+        sessionStorage.user_id = res.data.id;
         this.setState({
           loggedIn: true,
         });
@@ -222,7 +216,7 @@ class App extends Component {
       .then((res) => {
         console.log("signed up");
         console.log(res);
-        localStorage.user_id = res.data.id;
+        sessionStorage.user_id = res.data.id;
         console.log("test");
 
         window.location = "/";
@@ -249,7 +243,7 @@ class App extends Component {
     });
   }
   logout() {
-    localStorage.removeItem("user_id");
+    sessionStorage.removeItem("user_id");
     axios
       .get("/auth/logout")
       .then((res) => {
@@ -261,7 +255,7 @@ class App extends Component {
       });
   }
   loggedIn() {
-    if (localStorage.user_id) {
+    if (sessionStorage.user_id) {
       return true;
     } else {
       return false;

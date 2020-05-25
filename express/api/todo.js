@@ -15,9 +15,9 @@ function validTodo(todo) {
 }
 router.get("/", (req, res) => {
   queries.getAll().then((todos) => {
-    todos.filter((x) => !x.user_id);
-    console.log(todos);
-    res.json(todos);
+    const filteredList = todos.filter((todo) => !todo.user_id);
+
+    res.json(filteredList);
   });
 });
 router.get(
@@ -61,8 +61,15 @@ router.put("/:id", isValidId, (req, res, next) => {
       })
       .then(() =>
         queries.getAll().then((todos) => {
-          console.log("updated again");
-          res.json(todos);
+          let filteredList = [];
+          if (req.signedCookies.user_id) {
+            filteredList = todos.filter(
+              (todo) => todo.user_id == req.signedCookies.user_id
+            );
+          } else {
+            filteredList = todos.filter((todo) => todo.user_id == null);
+          }
+          res.json(filteredList);
         })
       );
   } else {
