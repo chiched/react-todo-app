@@ -26,7 +26,6 @@ router.get(
   authMiddleware.allowAccess,
   (req, res) => {
     queries.getAll().then((todos) => {
-      console.log(todos);
       if (!req.params.id) {
         res.json(todos);
       } else {
@@ -43,8 +42,6 @@ router.post("/", (req, res, next) => {
     const todo = { ...req.body, user_id: req.signedCookies.user_id };
 
     queries.create(todo).then((todos) => {
-      // req.signedCookies.user_id
-      console.log(todos[0]);
       res.json(todos[0]);
     });
   } else {
@@ -56,7 +53,6 @@ router.put("/:id", isValidId, (req, res, next) => {
     queries
       .update(req.params.id, req.body)
       .then(() => {
-        console.log("updated");
         res.status(200);
       })
       .then(() =>

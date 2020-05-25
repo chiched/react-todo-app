@@ -12,7 +12,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      message: "My Work",
+      message: "My To-Do App",
       newTodo: "",
       todos: [],
       apitest: {},
@@ -36,17 +36,16 @@ class App extends Component {
       axios
         .get(`/api/user/` + urlParams[2])
         .then((res) => {
-          console.log(res);
           const todos = res.data;
           this.setState({ todos });
         })
         .catch((error) => {
           window.location = "/";
-          console.log(error.response);
         });
     } else {
-      if (sessionStorage.user_id) {
-        window.location = "/user/" + sessionStorage.user_id;
+      if (document.cookie) {
+        const cookie = document.cookie.split("=");
+        window.location = "/user/" + cookie[1];
         this.setState({
           loggedIn: true,
         });
@@ -114,7 +113,6 @@ class App extends Component {
   toggleTodoDone(event, index, id) {
     const todos = [...this.state.todos];
     todos[index].done = event.target.checked;
-    console.log("data: " + JSON.stringify(todos[index]));
     axios
       .put("/api/" + id, {
         title: todos[index].title,
@@ -122,7 +120,6 @@ class App extends Component {
         important: todos[index].important,
       })
       .then((res) => {
-        console.log(res.data);
         return res;
       });
     this.setState({ todos });
@@ -130,7 +127,6 @@ class App extends Component {
 
   toggleTodoImportant(event, index, id) {
     let todos = [...this.state.todos];
-    console.log("first todo " + JSON.stringify(todos));
     todos[index].important = !todos[index].important;
     axios
       .put("/api/" + id, {
@@ -140,27 +136,19 @@ class App extends Component {
       })
       .then((res) => {
         todos = res.data;
-        console.log("second todo " + JSON.stringify(res.data));
         this.setState({ todos });
       });
   }
   removeTodo(event, index, id) {
     event.preventDefault();
     const todos = [...this.state.todos];
-    console.log("remove todo started");
 
     axios.delete("/api/" + id).then((res) => {
       if (res.status === 200) {
-        console.log("status 200 received");
-        // todos.splice(index, 1);
-        console.log(todos);
         todos.splice(index, 1);
-        console.log(todos);
         this.setState({
           todos,
         });
-      } else {
-        console.log("status code wasn't 200");
       }
     });
   }
@@ -187,20 +175,13 @@ class App extends Component {
     };
     axios
       .post(`/auth/login`, user)
-      .then((res) => {
-        sessionStorage.user_id = res.data.id;
-        this.setState({
-          loggedIn: true,
-        });
-      })
-
+      .then(() => (window.location = "/"))
       .catch((error) => {
         const loginError = error.response.data.message;
         this.setState({
           loginError,
         });
-      })
-      .then(() => (window.location = "/"));
+      });
   }
   handleSignupSubmit(event) {
     event.preventDefault();
@@ -210,19 +191,12 @@ class App extends Component {
       email,
       password,
     };
-    console.log(user);
     axios
       .post(`/auth/signup`, user)
       .then((res) => {
-        console.log("signed up");
-        console.log(res);
-        sessionStorage.user_id = res.data.id;
-        console.log("test");
-
         window.location = "/";
       })
       .catch((error) => {
-        console.error(error.response);
         const signupError = error.response.data.message;
         this.setState({
           signupError,
@@ -242,20 +216,14 @@ class App extends Component {
       signupPassword,
     });
   }
-  logout() {
-    sessionStorage.removeItem("user_id");
-    axios
-      .get("/auth/logout")
-      .then((res) => {
-        console.log(res);
-      })
-      .then(() => {
-        this.state.loggedIn = false;
-        window.location = "/";
-      });
+  logout(event) {
+    event.preventDefault();
+    axios.get("/auth/logout").then(() => {
+      window.location = "/";
+    });
   }
   loggedIn() {
-    if (sessionStorage.user_id) {
+    if (document.cookie) {
       return true;
     } else {
       return false;
@@ -264,13 +232,23 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <span
+          className={
+            this.loggedIn() ? "hidden demo-message" : "visible demo-message"
+          }
+        >
+          This is a demo that's accessible to all. Please signup to access your
+          personal to-do list.
+        </span>
         <navbar>
-          <span>{this.state.message}</span>
+          <span>
+            {this.loggedIn() ? "You are logged in" : this.state.message}
+          </span>
           <div className="nav-right">
             <a
               href=""
               className={this.loggedIn() ? "visible logout" : "hidden logout"}
-              onClick={() => this.logout()}
+              onClick={(event) => this.logout(event)}
               title="Logout"
             >
               Logout <FontAwesomeIcon className="logout" icon={faSignOutAlt} />

@@ -1,8 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap");
+
 html {
   height: 100%;
 }
-
 body {
   margin: 0;
   background: rgb(142, 212, 173);
@@ -17,10 +17,8 @@ body {
 navbar {
   width: 100%;
   background-color: #57b68c;
-  /* 8ed4ad dfe3a3 */
   display: block;
   overflow: hidden;
-
   margin-bottom: 12px;
 }
 navbar span {
@@ -54,6 +52,7 @@ navbar font h3 {
   vertical-align: -0.2rem;
 }
 
+/* New To-Do form*/
 form.add-todo {
   background-color: #57b68c;
   height: 2.8rem;
@@ -82,10 +81,26 @@ form.add-todo button {
   float: right;
   cursor: pointer;
   transition: all 0.5s;
-  line-height: 2.3rem;
+  line-height: 2.6rem;
 }
 form.add-todo button:hover {
   color: rgb(255, 255, 255, 1);
+}
+form.add-todo ::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  color: rgb(255, 255, 255, 0.7);
+}
+form.add-todo ::-moz-placeholder {
+  /* Firefox 19+ */
+  color: rgb(255, 255, 255, 0.7);
+}
+form.add-todo :-ms-input-placeholder {
+  /* IE 10+ */
+  color: rgb(255, 255, 255, 0.7);
+}
+form.add-todo :-moz-placeholder {
+  /* Firefox 18- */
+  color: rgb(255, 255, 255, 0.7);
 }
 input[type="checkbox"] {
   margin-right: 10px;
@@ -107,7 +122,6 @@ li {
 .done {
   text-decoration: line-through;
 }
-
 .visible {
   display: inherit;
 }
@@ -137,22 +151,14 @@ li {
   background-color: teal;
   color: #fff;
 }
-
 .auth-form form {
   background-color: teal;
   color: #fff;
   height: 30px;
   position: absolute;
   top: 45px;
-
   padding: 12px;
   border-radius: 0 0 3px 3px;
-}
-.login-form form {
-  right: 75px;
-}
-.signup-form form {
-  right: 12px;
 }
 .auth-form .form-group {
   float: left;
@@ -166,19 +172,15 @@ li {
   cursor: pointer;
   padding: 0px;
 }
-form.add-todo ::-webkit-input-placeholder {
-  /* Chrome/Opera/Safari */
-  color: rgb(255, 255, 255, 0.7);
+.login-form form {
+  right: 75px;
 }
-form.add-todo ::-moz-placeholder {
-  /* Firefox 19+ */
-  color: rgb(255, 255, 255, 0.7);
+.signup-form form {
+  right: 12px;
 }
-form.add-todo :-ms-input-placeholder {
-  /* IE 10+ */
-  color: rgb(255, 255, 255, 0.7);
-}
-form.add-todo :-moz-placeholder {
-  /* Firefox 18- */
-  color: rgb(255, 255, 255, 0.7);
+.demo-message {
+  background-color: #5e86c1;
+  color: white;
+  padding: 0.5rem 1rem 0.7rem;
+  text-align: center;
 }

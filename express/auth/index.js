@@ -21,7 +21,6 @@ function validUser(user) {
 router.post("/signup", (req, res, next) => {
   if (validUser(req.body)) {
     Users.getOneByEmail(req.body.email).then((user) => {
-      console.log("user", user);
       if (!user) {
         // this is a unique email
         // hash password
@@ -33,11 +32,17 @@ router.post("/signup", (req, res, next) => {
           };
           Users.create(user).then((id) => {
             const isSecure = req.app.get("env") != "development";
-            res.cookie("user_id", id, {
-              httpOnly: true,
-              signed: true,
-              secured: isSecure,
-            });
+            res
+              .cookie("user_id", id, {
+                httpOnly: true,
+                signed: true,
+                secured: isSecure,
+              })
+              .cookie("loggedIn", id, {
+                httpOnly: false,
+                signed: false,
+                secure: isSecure,
+              });
             res.json({
               id,
               message: "✅",
@@ -56,16 +61,21 @@ router.post("/signup", (req, res, next) => {
 router.post("/login", (req, res, next) => {
   if (validUser(req.body)) {
     Users.getOneByEmail(req.body.email).then((user) => {
-      console.log(user);
       if (user) {
         bcrypt.compare(req.body.password, user.password).then((result) => {
           if (result) {
             const isSecure = req.app.get("env") != "development";
-            res.cookie("user_id", user.id, {
-              httpOnly: true,
-              signed: true,
-              secured: isSecure,
-            });
+            res
+              .cookie("user_id", user.id, {
+                httpOnly: true,
+                signed: true,
+                secured: isSecure,
+              })
+              .cookie("loggedIn", user.id, {
+                httpOnly: false,
+                signed: false,
+                secure: isSecure,
+              });
             res.json({
               id: user.id,
               message: "Logged in! 🔓",
@@ -83,7 +93,7 @@ router.post("/login", (req, res, next) => {
   }
 });
 router.get("/logout", (req, res) => {
-  res.clearCookie("user_id");
+  res.clearCookie("user_id").clearCookie("loggedIn");
   res.json({
     message: "🔒",
   });
