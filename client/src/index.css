@@ -86,7 +86,7 @@ form.add-todo input {
 }
 @media (min-width: 320px) and (max-width: 480px) {
   form.add-todo input {
-    width: 80%;
+    width: 75%;
   }
 }
 form.add-todo input:focus {
@@ -236,22 +236,22 @@ li > span {
   position: fixed;
   bottom: 6px;
   display: block;
-  background-color: #fafafa;
+  background-color: #e5e8ef;
   padding: 2%;
   width: 90%;
   text-align: center;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   font-weight: normal;
   border-radius: 5px;
   font-family: sf_pro_displaythin, sans-serif;
 }
 .install-button {
-  width: 13px;
+  width: 17px;
   display: inline-block;
   margin: 2px 5px 0px;
   vertical-align: middle;
 }
 .install-button.add {
-  width: 15px;
+  width: 19px;
   margin-top: 4px;
 }

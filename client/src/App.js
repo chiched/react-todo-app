@@ -73,6 +73,7 @@ class App extends Component {
   handleClickOutside(event) {
     const loginButton = document.getElementsByClassName("login");
     const signupButton = document.getElementsByClassName("signup");
+    this.setState({ showInstallMessage: false });
 
     if (
       !loginButton.item(0).contains(event.target) &&
