@@ -37,11 +37,11 @@ const SignupForm = (props) => {
             placeholder="password"
             required
           />
+          <span className="error">{props.signupError}</span>
         </div>
         <button type="submit">
           <FontAwesomeIcon className="logout" icon={faSignInAlt} />
         </button>
-        <span>{props.signupError}</span>
       </form>
     </div>
   );

@@ -191,17 +191,24 @@ class App extends Component {
       email,
       password,
     };
-    axios
-      .post(`/auth/signup`, user)
-      .then((res) => {
-        window.location = "/";
-      })
-      .catch((error) => {
-        const signupError = error.response.data.message;
-        this.setState({
-          signupError,
+    if (password.length >= 6) {
+      axios
+        .post(`/auth/signup`, user)
+        .then((res) => {
+          window.location = "/";
+        })
+        .catch((error) => {
+          const signupError = error.response.data.message;
+          this.setState({
+            signupError,
+          });
         });
+    } else {
+      const signupError = "Min. 6 characters";
+      this.setState({
+        signupError,
       });
+    }
   }
   handleSignupEmailChange(event) {
     const signupEmail = event.target.value;
