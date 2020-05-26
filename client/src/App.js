@@ -66,7 +66,9 @@ class App extends Component {
     const userAgent = window.navigator.userAgent.toLowerCase();
     var isSafari =
       /Safari/.test(navigator.userAgent) &&
-      /Apple Computer/.test(navigator.vendor);
+      /Apple Computer/.test(navigator.vendor) &&
+      !/Chrome/.test(navigator.userAgent);
+
     return /iphone|ipad|ipod/.test(userAgent) && isSafari;
   };
   // Detects if device is in standalone mode
