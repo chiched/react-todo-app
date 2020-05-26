@@ -24,12 +24,16 @@ class App extends Component {
       signupError: "",
       showingLogin: false,
       showingSignup: false,
+      showInstallMessage: false,
     };
   }
 
   componentDidMount() {
     document.addEventListener("mousedown", this.handleClickOutside.bind(this));
 
+    if (this.isIos() && !this.isInStandaloneMode()) {
+      this.setState({ showInstallMessage: true });
+    }
     const url = window.location.pathname;
     let urlParams = url.split("/");
     if (urlParams[1] === "user" && !isNaN(urlParams[2])) {
@@ -56,6 +60,15 @@ class App extends Component {
       });
     }
   }
+
+  // Detects if device is on iOS
+  isIos = () => {
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    return /iphone|ipad|ipod/.test(userAgent);
+  };
+  // Detects if device is in standalone mode
+  isInStandaloneMode = () =>
+    "standalone" in window.navigator && window.navigator.standalone;
 
   handleClickOutside(event) {
     const loginButton = document.getElementsByClassName("login");
@@ -323,6 +336,54 @@ class App extends Component {
           toggleTodoDone={this.toggleTodoDone.bind(this)}
           removeTodo={this.removeTodo.bind(this)}
         />
+        <div
+          className={
+            this.state.showInstallMessage
+              ? "visible install-message"
+              : "hidden install-message"
+          }
+        >
+          Install this webapp on your iPhone:
+          <br /> tap
+          <div className="install-button share">
+            <svg viewBox="0 0 66 83" xmlns="http://www.w3.org/2000/svg">
+              <g>
+                <title>background</title>
+                <rect fill="none" id="canvas_background" y="-1" x="-1" />
+              </g>
+              <g>
+                <title>Layer 1</title>
+                <g id="Symbols">
+                  <g transform="matrix(1,0,0,1,517.792,696) " id="Ultralight-S">
+                    <path
+                      fill="#5a91f6"
+                      id="svg_72"
+                      d="m-485.389933,-641.382133c0.6347,0 1.123,-0.4883 1.123,-1.0742l0,-44.5313l-0.0488,-5.2734l4.8828,4.9316l7.7148,7.7637c0.1953,0.2441 0.5371,0.3906 0.8301,0.3906c0.4883,0 0.9766,-0.4883 0.9766,-1.0254c0,-0.293 -0.0977,-0.5371 -0.3418,-0.7324l-14.3555,-14.4043c-0.2441,-0.1953 -0.4883,-0.293 -0.7812,-0.293c-0.2442,0 -0.5372,0.0977 -0.7813,0.293l-14.4043,14.4043c-0.1953,0.1953 -0.293,0.4394 -0.293,0.7324c0,0.5371 0.4395,1.0254 0.9766,1.0254c0.2441,0 0.5859,-0.1465 0.8301,-0.3906l7.7148,-7.7637l4.9317,-4.9805l-0.0489,5.3223l0,44.5313c0,0.5859 0.4883,1.0742 1.0743,1.0742zm-22.168,28.56442l44.2871,0c6.543,0 10.0098,-3.564448 10.0098,-9.96093l0,-40.77149c0,-6.4453 -3.4668,-9.9609 -10.0098,-9.9609l-11.3281,0l0,2.1972l11.2304,0c4.9805,0 7.9102,2.6856 7.9102,7.8614l0,40.5273c0,5.22461 -2.9297,7.91016 -7.9102,7.91016l-44.0918,0c-5.2246,0 -7.9101,-2.68555 -7.9101,-7.91016l0,-40.5273c0,-5.1758 2.6855,-7.8614 7.9101,-7.8614l11.3282,0l0,-2.1972l-11.4258,0c-6.543,0 -10.00978,3.4179 -10.00978,9.9609l0,40.77149c0,6.494138 3.46678,9.96093 10.00978,9.96093z"
+                    />
+                  </g>
+                </g>
+              </g>
+            </svg>
+          </div>
+          and then Add to Home Screen
+          <div className="install-button add">
+            <svg viewBox="0 0 70 70" xmlns="http://www.w3.org/2000/svg">
+              <g>
+                <title>background</title>
+              </g>
+              <g>
+                <title>Layer 1</title>
+                <g id="svg_16">
+                  <path
+                    fill="#666666"
+                    id="svg_15"
+                    d="m10.546875,68.115231l47.0215,0c6.9336,0 10.5469,-3.66211 10.5469,-10.49805l0,-47.0703c0,-6.8848 -3.6133,-10.5469 -10.5469,-10.5469l-47.0215,0c-6.9336,0 -10.54688,3.6133 -10.54688,10.5469l0,47.0703c0,6.9336 3.61328,10.49805 10.54688,10.49805zm23.4375,-15.03905c-1.0742,0 -1.7578,-0.8301 -1.7578,-1.9043l0,-15.332l-15.5274,0c-1.0742,0 -1.9531,-0.7325 -1.9531,-1.7578c0,-1.1231 0.8301,-1.8555 1.9531,-1.8555l15.5274,0l0,-15.5762c0,-1.123 0.6836,-1.9531 1.7578,-1.9531c1.1719,0 1.8555,0.8301 1.8555,1.9531l0,15.5762l15.5761,0c1.1231,0 1.9532,0.7324 1.9532,1.8555c0,1.0253 -0.8789,1.7578 -1.9532,1.7578l-15.5761,0l0,15.332c0,1.123 -0.6836,1.9043 -1.8555,1.9043z"
+                  />
+                </g>
+              </g>
+            </svg>
+          </div>
+        </div>
       </div>
     );
   }

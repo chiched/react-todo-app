@@ -1,5 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap");
 
+@font-face {
+  font-family: "sf_pro_displaythin";
+  src: local("sf_pro_displaythin"),
+    url(./fonts/sf-pro-display-thin-webfont.woff2) format("woff2"),
+    url(./fonts/sf-pro-display-thin-webfont.woff) format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 html {
   height: 100%;
 }
@@ -149,7 +157,7 @@ li > span {
   display: inherit;
 }
 .hidden {
-  display: none;
+  display: none !important;
 }
 .todo-right {
   float: right;
@@ -222,4 +230,28 @@ li > span {
   .demo-message {
     font-size: 0.8rem;
   }
+}
+.install-message {
+  left: 3%;
+  position: fixed;
+  bottom: 6px;
+  display: block;
+  background-color: #fafafa;
+  padding: 2%;
+  width: 90%;
+  text-align: center;
+  font-size: 0.7rem;
+  font-weight: normal;
+  border-radius: 5px;
+  font-family: sf_pro_displaythin, sans-serif;
+}
+.install-button {
+  width: 13px;
+  display: inline-block;
+  margin: 2px 5px 0px;
+  vertical-align: middle;
+}
+.install-button.add {
+  width: 15px;
+  margin-top: 4px;
 }
