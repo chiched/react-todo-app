@@ -19,6 +19,7 @@ navbar {
   background-color: #57b68c;
   display: block;
   margin-bottom: 12px;
+  position: relative;
 }
 navbar span {
   color: #fff;
@@ -52,7 +53,6 @@ navbar font h3 {
 .nav-right {
   float: right;
   padding-right: 12px;
-  position: relative;
 }
 .nav-right svg {
   vertical-align: -0.2rem;
@@ -75,6 +75,11 @@ form.add-todo input {
   line-height: 1.8rem;
   padding: 7px 0px;
   width: 85%;
+}
+@media (min-width: 320px) and (max-width: 480px) {
+  form.add-todo input {
+    width: 80%;
+  }
 }
 form.add-todo input:focus {
   outline: none;
@@ -121,13 +126,21 @@ li {
   background-color: #fff;
   border-radius: 3px;
   margin-bottom: 1px;
-  height: 1.4rem;
   padding: 12px;
   font-weight: 300;
   color: #202020;
 }
 li span {
   vertical-align: top;
+}
+li > span {
+  width: 80%;
+  display: inline-block;
+}
+@media (min-width: 320px) and (max-width: 480px) {
+  li > span {
+    width: 65%;
+  }
 }
 .done {
   text-decoration: line-through;
@@ -192,6 +205,12 @@ li span {
 .signup-form form {
   right: 12px;
   width: 302px;
+}
+@media (min-width: 320px) and (max-width: 480px) {
+  .login-form form,
+  .signup-form form {
+    left: 0px;
+  }
 }
 .demo-message {
   background-color: #5e86c1;
