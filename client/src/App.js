@@ -64,7 +64,10 @@ class App extends Component {
   // Detects if device is on iOS
   isIos = () => {
     const userAgent = window.navigator.userAgent.toLowerCase();
-    return /iphone|ipad|ipod/.test(userAgent);
+    var isSafari =
+      /Safari/.test(navigator.userAgent) &&
+      /Apple Computer/.test(navigator.vendor);
+    return /iphone|ipad|ipod/.test(userAgent) && isSafari;
   };
   // Detects if device is in standalone mode
   isInStandaloneMode = () =>
