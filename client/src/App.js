@@ -254,6 +254,12 @@ class App extends Component {
       return false;
     }
   }
+  disableInstallMessage(event) {
+    event.preventDefault();
+    this.setState({
+      showInstallMessage: false,
+    });
+  }
   render() {
     return (
       <div className="App">
@@ -347,9 +353,7 @@ class App extends Component {
               ? "visible install-message"
               : "hidden install-message"
           }
-          onTouchEnd={this.setState({
-            showInstallMessage: false,
-          })}
+          onTouchEnd={(event) => this.disableInstallMessage(event)}
         >
           Install this webapp on your iPhone:
           <br /> tap
