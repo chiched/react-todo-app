@@ -70,7 +70,7 @@ class App extends Component {
     var isSafari =
       /Safari/.test(navigator.userAgent) &&
       /Apple Computer/.test(navigator.vendor) &&
-      !/Chrome/.test(navigator.userAgent);
+      !/CriOS/.test(navigator.userAgent);
     var usingSafari = /iphone|ipad|ipod/.test(userAgent) && isSafari;
     console.log(usingSafari);
     this.setState({
