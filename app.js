@@ -5,6 +5,7 @@ const favicon = require("serve-favicon");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const auth = require("./auth");
+var sslRedirect = require("heroku-ssl-redirect");
 
 const app = express();
 
@@ -13,6 +14,8 @@ const todo = require("./api/todo");
 require("dotenv").config();
 
 // view engine setup
+
+app.use(sslRedirect());
 
 app.use(logger("dev"));
 app.use(express.json());
