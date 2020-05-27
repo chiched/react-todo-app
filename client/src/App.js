@@ -78,7 +78,6 @@ class App extends Component {
   handleClickOutside(event) {
     const loginButton = document.getElementsByClassName("login");
     const signupButton = document.getElementsByClassName("signup");
-    this.setState({ showInstallMessage: false });
 
     if (
       !loginButton.item(0).contains(event.target) &&
@@ -348,6 +347,9 @@ class App extends Component {
               ? "visible install-message"
               : "hidden install-message"
           }
+          onTouchEnd={this.setState({
+            showInstallMessage: false,
+          })}
         >
           Install this webapp on your iPhone:
           <br /> tap
