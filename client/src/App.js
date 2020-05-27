@@ -25,6 +25,7 @@ class App extends Component {
       showingLogin: false,
       showingSignup: false,
       showInstallMessage: false,
+      userAgent: "",
     };
   }
 
@@ -68,7 +69,9 @@ class App extends Component {
       /Safari/.test(navigator.userAgent) &&
       /Apple Computer/.test(navigator.vendor) &&
       !/CriOS/.test(navigator.userAgent);
-
+    this.setState({
+      userAgent: navigator.userAgent,
+    });
     return /iphone|ipad|ipod/.test(userAgent) && isSafari;
   };
   // Detects if device is in standalone mode
@@ -270,6 +273,8 @@ class App extends Component {
         >
           This is a demo that's accessible to all. Please signup to access your
           personal to-do list.
+          <br />
+          {this.state.userAgent}
         </span>
         <navbar>
           <span>
