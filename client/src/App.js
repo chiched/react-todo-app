@@ -68,7 +68,8 @@ class App extends Component {
     var isSafari =
       /Safari/.test(navigator.userAgent) &&
       /Apple Computer/.test(navigator.vendor) &&
-      !/CriOS/.test(navigator.userAgent);
+      !/CriOS/.test(navigator.userAgent) &&
+      !/GSA/.test(navigator.userAgent);
     this.setState({
       userAgent: navigator.userAgent,
     });
