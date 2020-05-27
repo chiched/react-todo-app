@@ -215,9 +215,9 @@ li > span {
   width: 296px;
 }
 .auth-form input[type="password"] {
-  width: 115px;
+  width: 95px;
 }
-@media (min-width: 320px) and (max-width: 480px) {
+@media (max-width: 338px) {
   .login-form form,
   .signup-form form {
     left: 0px;
