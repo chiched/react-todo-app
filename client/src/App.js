@@ -25,9 +25,6 @@ class App extends Component {
       showingLogin: false,
       showingSignup: false,
       showInstallMessage: false,
-      userAgent: "",
-      vendor: "",
-      usingSafari: false,
     };
   }
 
@@ -71,13 +68,6 @@ class App extends Component {
       /Safari/.test(navigator.userAgent) &&
       /Apple Computer/.test(navigator.vendor) &&
       !/CriOS/.test(navigator.userAgent);
-    var usingSafari = /iphone|ipad|ipod/.test(userAgent) && isSafari;
-    console.log(usingSafari);
-    this.setState({
-      userAgent: navigator.userAgent,
-      vendor: navigator.vendor,
-      usingSafari: usingSafari,
-    });
 
     return /iphone|ipad|ipod/.test(userAgent) && isSafari;
   };
@@ -275,12 +265,6 @@ class App extends Component {
         >
           This is a demo that's accessible to all. Please signup to access your
           personal to-do list.
-          <br />
-          vendor: {this.state.vendor}
-          <br />
-          useragent: {this.state.userAgent}
-          <br />
-          usingSafari: {this.state.usingSafari.toString()}
         </span>
         <navbar>
           <span>
